@@ -8,22 +8,26 @@
  * License: GPL2
  */
 
-// Securitate: Blocăm accesul direct dacă fișierul este apelat în afara ecosistemului WordPress
+// EN: Security: Prevent direct file access if invoked outside the global WordPress execution scope
+// RO: Securitate: Previne accesul direct la fișier dacă este apelat în afara ariei WordPress
 if (!defined('ABSPATH')) {
     exit;
 }
 
-// Înregistrăm o funcție care se execută când se deschide body-ul site-ului (Frontend DOM)
-add_action('wp_body_open', 'verintel_afiseaza_banner_alerta');
+// EN: Hook a custom rendering routine onto the theme's core structural layout initialization
+// RO: Conectează o rutină de randare personalizată la inițializarea structurii temei
+add_action('wp_body_open', 'verintel_display_alert_banner');
 
-function verintel_afiseaza_banner_alerta() {
-    // Mesajul de alertă optimizat pentru demo-ul tău
-    $mesaj_alerta = "🔥 **ALERTĂ VERINTEL:** Modulul de monitorizare Emag a detectat reduceri masive! Verifică serverul.";
+function verintel_display_alert_banner() {
+    // EN: Global configuration variable containing raw marketing layout components
+    // RO: Variabilă globală ce conține componentele brute de marketing ale bannerului
+    $alert_message = "🔥 **VERINTEL ALERT:** The Emag monitoring system has detected massive price drops! Check the server logs immediately.";
     
-    // Injectăm codul HTML și stilul CSS inline direct în pagină
+    // EN: Direct standard markup compilation using secure text localization filters to avoid injection bugs
+    // RO: Compilare markup standard utilizând filtre de securizare a textului pentru a evita bug-uri de injecție
     echo '
     <div id="verintel-top-banner" style="background: #111; color: #00ffcc; text-align: center; padding: 12px; font-family: \'Segoe UI\', sans-serif; font-size: 14px; font-weight: bold; border-bottom: 2px solid #00ffcc; position: relative; z-index: 99999;">
-        <span>' . esc_html($mesaj_alerta) . '</span>
+        <span>' . esc_html($alert_message) . '</span>
     </div>
     ';
 }
